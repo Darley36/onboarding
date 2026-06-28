@@ -1,8 +1,6 @@
 package co.com.nequi.r2dbc.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,7 +8,10 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
 
@@ -25,26 +26,26 @@ public class UserEntity {
     private Integer id;
 
     @NonNull
-    @Column(name = "email")
+    @Column("email")
     private String email;
 
     @NonNull
-    @Column(name = "first_name")
+    @Column("first_name")
     private String firstName;
 
     @NonNull
-    @Column(name = "last_name")
+    @Column("last_name")
     private String lastName;
 
     @NonNull
-    @Column(name = "avatar")
+    @Column("avatar")
     private String avatar;
 
     @CreatedDate
-    @Column(name = "create_date")
+    @Column("create_date")
     private LocalDateTime createdDate;
 
     @LastModifiedDate
-    @Column(name = "last_modified_date")
+    @Column("last_modified_date")
     private LocalDateTime lastModifiedDate;
 }

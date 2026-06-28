@@ -20,5 +20,20 @@ management:
     health:
       probes:
         enabled: true
+  health:
+    circuitbreakers:
+      enabled: true
 cors:
   allowed-origins: "http://localhost:4200,http://localhost:8080"
+adapter:
+  restconsumer:
+    timeout: 5000
+    url: "${URL_WEB:https://reqres.in/api/users}"
+postgresql:
+  host: "${DB_HOST:localhost}"
+  port: "${DB_PORT:5432}"
+  database: "${DB_NAME:tallernequi}"
+  username: "${DB_USER:admin}"
+  password: "${DB_PASS:admin}"
+  schema: "${DB_SCHEMA:public}"
+

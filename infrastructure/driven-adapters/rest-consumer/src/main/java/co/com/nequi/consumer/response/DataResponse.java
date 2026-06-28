@@ -1,6 +1,8 @@
-package co.com.nequi.model.user;
-import lombok.Builder;
+package co.com.nequi.consumer.response;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,10 +12,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class User {
-    private Integer id;
+public class DataResponse {
+    private int id;
     private String email;
+    @JsonProperty("first_name")
     private String firstName;
+    @JsonProperty("last_name")
     private String lastName;
     private String avatar;
 }
