@@ -11,6 +11,8 @@ public enum ErrorMessage {
     ERROR_POSTGRES_DUPLICATE("Error with the DB operations.", 409),
     ERROR_POSTGRES("Error with the DB operations.", 500),
     ERROR_POSTGRES_NOT_FOUND("Resource not found in DB. ", 404),
+    ERROR_SQS("Error event sqs",500),
+    ERROR_DYNAMO_DB("Error dynamoDB", 500),
     ERROR_MONGO_CONNECTION("Error connecting to the DB.", 503),
     ERROR_MONGO_AUTHENTICATION("DB authentication failed.", 401),
     ERROR_MONGO_TIMEOUT("DB operation timeout.", 504),

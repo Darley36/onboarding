@@ -5,12 +5,17 @@ spring:
     name: "onboarding-nequi"
   devtools:
     add-properties: false
+    restart:
+      enabled: false
   h2:
     console:
       enabled: true
       path: "/h2"
   profiles:
     include: null
+  redis:
+    host: "localhost"
+    port: 6379
 management:
   endpoints:
     web:
@@ -29,6 +34,10 @@ adapter:
   restconsumer:
     timeout: 5000
     url: "${URL_WEB:https://reqres.in/api/users}"
+  sqs:
+    region: "us-east-1"
+    queueUrl: "http://localhost:4566/000000000000/mi-cola-onboarding"
+    endpoint: "http://localhost:4566"
 postgresql:
   host: "${DB_HOST:localhost}"
   port: "${DB_PORT:5432}"
@@ -36,4 +45,16 @@ postgresql:
   username: "${DB_USER:admin}"
   password: "${DB_PASS:admin}"
   schema: "${DB_SCHEMA:public}"
-
+aws:
+  region: "us-east-1"
+  dynamodb:
+    endpoint: "http://localhost:4566"
+entrypoint:
+  sqs:
+    region: "us-east-1"
+    endpoint: "http://localhost:4566"
+    queueUrl: "http://localhost:4566/000000000000/mi-cola-onboarding"
+    waitTimeSeconds: 20
+    maxNumberOfMessages: 10
+    visibilityTimeoutSeconds: 10
+    numberOfThreads: 1

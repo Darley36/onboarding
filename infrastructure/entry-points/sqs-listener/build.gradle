@@ -1,0 +1,11 @@
+dependencies {
+    implementation project(':model')
+    implementation project(':usecase')
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'software.amazon.awssdk:sqs'
+    implementation 'org.apache.logging.log4j:log4j-api'
+    implementation 'org.reactivecommons.utils:object-mapper-api:0.1.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+    testImplementation 'org.reactivecommons.utils:object-mapper:0.1.0'
+}

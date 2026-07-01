@@ -10,6 +10,7 @@ import co.com.nequi.r2dbc.entity.UserEntity;
 import co.com.nequi.r2dbc.helper.ReactiveAdapterOperations;
 import co.com.nequi.r2dbc.mapper.UserEntityMapper;
 import io.r2dbc.spi.R2dbcDataIntegrityViolationException;
+import lombok.extern.slf4j.Slf4j;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @Repository
 public class UserRepositoryAdapter extends ReactiveAdapterOperations<
         User/* change for domain model */,
@@ -39,6 +41,7 @@ public class UserRepositoryAdapter extends ReactiveAdapterOperations<
         UserEntity userEntity = mapper.map(user, UserEntity.class);
         return entityTemplate.insert(userEntity)
                 .map(savedEntity -> mapper.map(savedEntity, User.class))
+                .doOnNext(userDB -> log.info("Usuario con ID: {} registrado exitosamente de la DB", userDB.getId()))
                 .onErrorResume(throwable -> {
                     if (throwable instanceof DataIntegrityViolationException ||
                             throwable instanceof R2dbcDataIntegrityViolationException) {
@@ -58,7 +61,8 @@ public class UserRepositoryAdapter extends ReactiveAdapterOperations<
     @Override
     public Mono<User> getById(Integer id) {
         return repository.findById(id)
-                .map(UserEntityMapper::toModel);
+                .map(UserEntityMapper::toModel)
+                .doOnNext(userDB -> log.info("Usuario con ID: {} recuperado exitosamente de la DB", userDB.getId()));
     }
 
     @Override
@@ -73,11 +77,13 @@ public class UserRepositoryAdapter extends ReactiveAdapterOperations<
 
     @Override
     public Flux<User> getByName(String name) {
-        Criteria criterio = Criteria.where("first_name").like("%" + name + "%").ignoreCase(true);
+        Criteria criterio = Criteria.where("first_name").is(name).ignoreCase(true);
 
         return entityTemplate.select(UserEntity.class)
                 .matching(Query.query(criterio))
                 .all()
-                .map(entity -> mapper.map(entity, User.class));
+                .map(entity -> mapper.map(entity, User.class))
+                .doOnNext(userDB -> log.info("Usuario con nombre: {} recuperado exitosamente de la DB",
+                        name));
     }
 }
